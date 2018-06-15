@@ -1,0 +1,32 @@
+clear all;
+
+lambda=0.75;                %micron
+w0=10;                      %could be 40~20micron
+z0=(pi*w0^2./lambda)*10^-6;  %m
+f1=12;                       %cm
+f2=0.2;                      %cm
+d1=12;                      %cm, distance between sample and lens1
+Md1=[1 d1*10^-2;0 1];        %m
+Mlens1=[1 0;-1/(f1*10^-2) 1]; %m
+M1=Mlens1*Md1;
+A1=M1(1,1);
+B1=M1(1,2);
+C1=M1(2,1);
+D1=M1(2,2);
+q0=i*z0;
+q1=(A1*q0+B1)/(C1*q0+D1);
+L1=-real(q1)*10^2;           %cm, the waist is L1 after the lens1
+z1=imag(q1);
+w1=((z1*10^6)*lambda/pi)^0.5;   %micron, half spot size
+d2=0.1;                     %cm, should be roughly L1+f2 for L2->inf
+Md2=[1 d2*10^-2;0 1];        %m
+Mlens2=[1 0;-1/(f2*10^-2) 1]; %m
+M2=Mlens2*Md2;               %
+A2=M2(1,1);
+B2=M2(1,2);
+C2=M2(2,1);
+D2=M2(2,2);
+q2=(A2*q1+B2)/(C2*q1+D2);
+L2=-real(q2)*10^2;           %cm, the waist is L2 after the lens2
+z2=imag(q2);
+w2=((z2*10^6)*lambda/pi)^0.5;   %micron, half spot size
